@@ -59,10 +59,10 @@
         android:layout_marginBottom="8dp" />
 
     <Button
-        android:id="@+id/btnSignIn"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="Login"
         android:background="@android:color/transparent"
         android:textColor="@android:color/holo_blue_dark" />
 

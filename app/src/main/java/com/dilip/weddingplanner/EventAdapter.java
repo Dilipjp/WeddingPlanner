@@ -10,24 +10,24 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomerAdapter extends BaseAdapter {
+public class EventAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Customer> customers;
+    private List<Event> events;
 
-    public CustomerAdapter(Context context, List<Customer> customers) {
+    public EventAdapter(Context context, List<Event> events) {
         this.context = context;
-        this.customers = customers;
+        this.events = events;
     }
 
     @Override
     public int getCount() {
-        return customers.size();
+        return events.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return customers.get(position);
+        return events.get(position);
     }
 
     @Override
@@ -41,24 +41,26 @@ public class CustomerAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
         }
 
-        Customer customer = customers.get(position);
+        Event event = events.get(position);
 
         TextView tvCustomerName = convertView.findViewById(R.id.tvCustomerName);
         TextView tvDate = convertView.findViewById(R.id.tvDate);
         TextView tvPlace = convertView.findViewById(R.id.tvPlace);
         Button btnView = convertView.findViewById(R.id.btnView);
 
-        tvCustomerName.setText(customer.getName());
-        tvDate.setText(customer.getDate());
-        tvPlace.setText(customer.getPlace());
+        tvCustomerName.setText(event.getName());
+        tvDate.setText(event.getDate());
+        tvPlace.setText(event.getPlace());
 
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EventDetailsActivity.class);
-                intent.putExtra("customerName", customer.getName());
-                intent.putExtra("date", customer.getDate());
-                intent.putExtra("place", customer.getPlace());
+                intent.putExtra("customerName", event.getName());
+                intent.putExtra("date", event.getDate());
+                intent.putExtra("time", event.getTime());
+                intent.putExtra("place", event.getPlace());
+                intent.putExtra("description", event.getDescription());
                 context.startActivity(intent);
             }
         });
