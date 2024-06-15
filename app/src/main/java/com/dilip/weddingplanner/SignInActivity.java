@@ -1,5 +1,6 @@
 package com.dilip.weddingplanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,9 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SignInActivity extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     Button btn_signIn, btn_register;
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +33,9 @@ public class SignInActivity extends AppCompatActivity {
         btn_signIn = findViewById(R.id.btnSignIn);
         btn_register = findViewById(R.id.btnRegister);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,8 +44,19 @@ public class SignInActivity extends AppCompatActivity {
                 if(email.isEmpty() || password.isEmpty()){
                     Toast.makeText(SignInActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(SignInActivity.this, email+password, Toast.LENGTH_SHORT).show();
-                    goHome();
+                    mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(SignInActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
+                            goHome(email);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignInActivity.this, "Sign in failed try again", Toast.LENGTH_SHORT).show();
+                            }
+                    });
+
                 }
 
             }
@@ -45,9 +70,18 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
-    public void goHome(){
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+    public void goHome(String email){
+        Intent intent;
+        if (email.equals("admin@gmail.com")) {
+             intent = new Intent(SignInActivity.this, AdminActivity.class);
+
+        }else {
+             intent = new Intent(SignInActivity.this, MainActivity.class);
+
+        }
+
         startActivity(intent);
         finish();
+
     }
 }

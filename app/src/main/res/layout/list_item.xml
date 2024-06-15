@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/list_item_background"
-    android:padding="16dp"
-    android:layout_margin="8dp"
-    android:elevation="4dp">
+    android:padding="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/rounded_corner">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,35 +18,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Customer Name"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Place"
+            android:textSize="14sp"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            android:textStyle="italic"
             android:layout_marginBottom="4dp" />
 
-        <TextView
-            android:id="@+id/tvPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Place"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:text="View"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnView"
+            android:layout_width="wrap_content"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@color/primaryDarkColor"
+            android:layout_height="wrap_content"
+            android:text="View"
+            android:layout_marginBottom="4dp"/>
+    </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class EventAdapter extends BaseAdapter {
@@ -41,7 +44,7 @@ public class EventAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
         }
 
-        Event event = events.get(position);
+        final Event event = events.get(position);
 
         TextView tvCustomerName = convertView.findViewById(R.id.tvCustomerName);
         TextView tvDate = convertView.findViewById(R.id.tvDate);
@@ -56,14 +59,11 @@ public class EventAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EventDetailsActivity.class);
-                intent.putExtra("customerName", event.getName());
-                intent.putExtra("date", event.getDate());
-                intent.putExtra("time", event.getTime());
-                intent.putExtra("place", event.getPlace());
-                intent.putExtra("description", event.getDescription());
+                intent.putExtra("eventId", event.getId());
                 context.startActivity(intent);
             }
         });
+
 
         return convertView;
     }
