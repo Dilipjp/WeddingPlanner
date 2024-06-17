@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private DatabaseReference mDatabase;
+    private DatabaseReference mEventsDatabase, mManagersDatabase;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private TextView tvNoData;
@@ -50,14 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         checkUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference("events");
+        mEventsDatabase = FirebaseDatabase.getInstance().getReference("events");
+        mManagersDatabase = FirebaseDatabase.getInstance().getReference("managers");
         tvNoData = findViewById(R.id.tvNoData);
 
 
         ListView listView = findViewById(R.id.listView);
         List<Event> events = new ArrayList<>();
 
-//
+
 //        events.add(new Event("John Doe", "2024-07-15", "18:00", "Old Montreal", "A beautiful evening event at the historical Old Montreal."));
 //        events.add(new Event("Jane Smith", "2024-08-20", "15:30", "Central Park", "A public gathering in Central Park with activities for all ages."));
 //        events.add(new Event("David Johnson", "2024-09-10", "12:00", "Grand Plaza Hotel", "A corporate conference at the Grand Plaza Hotel, featuring keynote speakers and networking opportunities."));
@@ -82,22 +83,44 @@ public class MainActivity extends AppCompatActivity {
 //        for (Event event : events) {
 //            String eventId = mDatabase.push().getKey();
 //            event.setId(eventId);
-//            mDatabase.child(eventId).setValue(event);
+//            mEventsDatabase.child(eventId).setValue(event);
 //        }
+
+//        List<Manager> managers = new ArrayList<>();
+//        managers.add(new Manager("Benjamin Martinez", "$1000 - $2000", "4.5", "A wine tasting event at the Vineyard Estate, sampling wines from local vineyards."));
+//        managers.add(new Manager("Charlotte Lee", "$1500 - $2500", "4.8", "A historical tour of the Mansion Gardens, exploring the architecture and history of the estate."));
+//        managers.add(new Manager("Henry Young", "$1200 - $2200", "4.2", "A fishing derby at the Lakeside Lodge, competing for prizes and enjoying the outdoors."));
+//        managers.add(new Manager("Grace Brown", "$800 - $1500", "4.6", "A picnic at the Park Pavilion, enjoying food and games in a scenic park setting."));
+//        managers.add(new Manager("Andrew Taylor", "$2000 - $3000", "4.9", "A community concert at Chapel Hill, featuring local musicians and performers."));
+//
+//        for (Manager manager : managers) {
+//            String managerId = mManagersDatabase.push().getKey();
+//            manager.setId(managerId);
+//            mManagersDatabase.child(managerId).setValue(manager);
+//        }
+
+
         EventAdapter adapter = new EventAdapter(this, events);
         listView.setAdapter(adapter);
+        // Assuming you have the current user ID stored in a variable
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mEventsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                events.clear();
+                events.clear();
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Event event = snapshot.getValue(Event.class);
-                        event.setId(snapshot.getKey());
-                        events.add(event);
+                        if (event != null && event.getCustomerId().equals(currentUserId)) {
+                            event.setId(snapshot.getKey());
+                            events.add(event);
+                            tvNoData.setVisibility(View.GONE);
+                        }else {
+                            tvNoData.setVisibility(View.VISIBLE);
+                        }
                     }
-                    tvNoData.setVisibility(View.GONE);
+
                 } else {
                     tvNoData.setVisibility(View.VISIBLE);
                 }
@@ -107,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("MainActivity", "Database error: " + databaseError.getMessage());
-
             }
         });
+
 
     }
     @Override

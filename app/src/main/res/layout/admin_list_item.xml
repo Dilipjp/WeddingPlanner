@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/tvCustomerName"
@@ -40,7 +40,6 @@
             android:text="Date"
             android:textSize="16sp"
             android:textStyle="italic"
-            android:layout_marginBottom="8dp"
             android:textColor="@color/primaryDarkColor" />
     </LinearLayout>
 
@@ -49,7 +48,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end"
-        android:paddingTop="8dp">
+        android:paddingTop="0dp">
 
         <Button
             android:id="@+id/btnView"

@@ -7,16 +7,22 @@ public class Event {
     private String place;
     private String time;
     private String description;
+    private String managerId;
+    private String customerId;
+    private String budgetRange;
 
     public Event(){
 
     }
-    public Event(String name, String date, String time, String place, String description) {
-        this.name = name;
+    public Event(String id, String customerId, String managerId, String date, String time, String place, String description, String budgetRange) {
+        this.id = id;
+        this.customerId = customerId;
+        this.managerId = managerId;
         this.date = date;
         this.time = time;
         this.place = place;
         this.description = description;
+        this.budgetRange = budgetRange;
     }
 
     public String getId() {
@@ -43,8 +49,15 @@ public class Event {
         return place;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription() {return description;}
+    public String getManagerId() {return managerId;}
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
     }
+    public String getBudgetRange() {return budgetRange;}
+    public String getCustomerId() {
+        return customerId;
+    }
+
 }
 

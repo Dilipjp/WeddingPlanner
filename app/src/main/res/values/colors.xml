@@ -13,6 +13,7 @@
     <color name="buttonText">#FFFFFF</color>
     <color name="editTextBackground">#E0E0E0</color>
     <color name="statusBarColor">#CCFEDBD0</color>
+    <color name="linkColor">#FF7043</color>
 
 </resources>
 
